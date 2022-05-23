@@ -1,8 +1,9 @@
 const express = require('express');
 const app = express();
+
 app.use(express.json());
 const {
-  models: { User },
+  models: { User, Note },
 } = require('./db');
 const path = require('path');
 
@@ -22,6 +23,20 @@ app.get('/api/auth', async (req, res, next) => {
     res.send(await User.byToken(req.headers.authorization));
   } catch (ex) {
     next(ex);
+  }
+});
+
+app.get('/api/user/:userId/notes', async (req, res, next) => {
+  try {
+    const id = req.params.userId;
+    const user = await User.findAll({
+      where: { id: id },
+      include: [{ model: Note }],
+    });
+
+    res.send(user[0].notes);
+  } catch (error) {
+    next(error);
   }
 });
 
