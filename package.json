@@ -1,0 +1,27 @@
+{
+  "name": "pairactivity_authentication",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "JWT=secretkey nodemon server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MiguelsCard/PairActivity_Authentication.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MiguelsCard/PairActivity_Authentication/issues"
+  },
+  "homepage": "https://github.com/MiguelsCard/PairActivity_Authentication#readme",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3"
+  }
+}
