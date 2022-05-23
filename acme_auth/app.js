@@ -1,11 +1,23 @@
 const express = require('express');
 const app = express();
-
 app.use(express.json());
 const {
   models: { User, Note },
 } = require('./db');
 const path = require('path');
+
+const requireToken = async (req, res, next) => {
+  try {
+    const token = req.headers.authorization;
+    console.log('TOKEN:', req.headers);
+    const user = await User.byToken(token);
+
+    req.user = user;
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
 
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 
@@ -26,9 +38,10 @@ app.get('/api/auth', async (req, res, next) => {
   }
 });
 
-app.get('/api/user/:userId/notes', async (req, res, next) => {
+app.get('/api/user/:userId/notes', requireToken, async (req, res, next) => {
   try {
-    const id = req.params.userId;
+    const id = req.user.id;
+    console.log('First', id);
     const user = await User.findAll({
       where: { id: id },
       include: [{ model: Note }],
